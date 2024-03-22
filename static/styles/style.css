@@ -1,0 +1,129 @@
+[data-theme="light"] {
+    --color-background: rgb(225, 225, 225);
+    --color-background-lighter: rgb(235, 235, 235);
+    --color-background-hovered: rgb(245, 245, 245);
+    --color-font: rgb(65, 65, 65);
+    --color-font-hovered: rgb(75, 75, 75);
+    --color-border: rgb(255, 255, 255);
+}
+  
+[data-theme="dark"] {
+    --color-background: rgb(10, 10, 10);
+    --color-background-lighter: rgb(12, 12, 12);
+    --color-background-hovered: rgb(17, 17, 17);
+    --color-font: rgb(225, 225, 225);
+    --color-font-hovered: rgb(255, 255, 255);
+    --color-border: rgb(40, 40, 40);
+}
+
+html, body {
+    box-sizing: border-box; 
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-font);
+    font-family: "Belanosima", sans-serif;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+
+    border-collapse: separate; 
+    border-spacing: 10px;
+}
+
+table, th, td {
+    border-radius: 5px;
+    margin: 10px;
+}
+
+th, td {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-lighter);
+    padding: 10px;
+    font-size: 4vh;
+    text-align: center;
+    border-radius: 5px;
+}
+
+td:hover {
+    background-color: var(--color-background-hovered);
+}
+
+button {
+    background-color: transparent;
+    color: var(--color-font);
+    border: transparent;
+    padding: 5px;
+    margin: 10px;
+    font-size: 20px;
+    font-family: "Belanosima", sans-serif;
+}
+
+button:hover {
+    color: var(--color-font-hovered);
+    cursor: pointer;
+    background: var(--color-background-hovered);
+    border-radius: 5px;
+}
+
+label, input {
+    margin: 0;
+    padding: 0;
+}
+
+select {
+    background: transparent;
+    color: var(--color-font);
+    border: none;
+    padding: 5px;
+    margin: 10px;
+    font-size: 20px;
+    font-family: "Belanosima", sans-serif;
+}
+
+select:hover, select:focus {
+    border-radius: 5px;
+    background: var(--color-background-hovered);
+    cursor: pointer;
+}
+
+#menu {
+    position:absolute;
+    left: 0;
+    top: 0;
+    margin: 10px;
+    font-size: 20px;
+    display: flex;
+}
+
+#wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#toggle_dark_theme {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#toggle_dark_theme:hover {
+    border-radius: 5px;
+    background: var(--color-background-hovered);
+}
+
+#info {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1vw;
+    text-align: center;
+}

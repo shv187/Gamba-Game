@@ -1,7 +1,7 @@
 const difficulty_element = document.getElementById("difficulty_id");
 
 var easy_settings = {
-    max_clicks: 3,
+    max_misses: 3,
     points_required_to_win: 3,
     board_size: {
         x: 3,
@@ -10,7 +10,7 @@ var easy_settings = {
 }
 
 var medium_settings = {
-    max_clicks: 6,
+    max_misses: 6,
     points_required_to_win: 6,
     board_size: {
         x: 6,
@@ -19,7 +19,7 @@ var medium_settings = {
 }
 
 var hard_settings = {
-    max_clicks: 9,
+    max_misses: 9,
     points_required_to_win: 9,
     board_size: {
         x: 9,
@@ -45,12 +45,12 @@ const game = {
     winning_icon: '👑',
     base_icon: '❔',
     state: {
-        clicks: 0,
+        misses: 0,
         points: 0,
         game_id: 0
     },
     settings: {
-        max_clicks: 5,
+        max_misses: 5,
         points_required_to_win: 3,
         board_size: {
             x: 3,
@@ -61,7 +61,7 @@ const game = {
     get_random_icon() {
         var chance = 0.50;
 
-        chance += (this.state.clicks * 0.1);
+        chance += (this.state.misses * 0.1);
         chance -= (this.state.points * 0.1);
 
         chance = 1.0 - chance;
@@ -87,7 +87,7 @@ const game = {
     },
     
     reset() {
-        this.state.clicks = 0;
+        this.state.misses = 0;
         this.state.points = 0;
         this.settings = difficulty_to_settings(difficulty_element.value);
 
@@ -102,7 +102,7 @@ const game = {
 
     update_info_bar() {
         var info_element = document.getElementById("info");
-        info_element.innerHTML = "Points: " + this.state.points + "<br>Clicks Left: " + (this.settings.max_clicks - this.state.clicks);
+        info_element.innerHTML = "Points: " + this.state.points + "<br>Misses Left: " + (this.settings.max_misses - this.state.misses);
         var color = getComputedStyle(info_element).getPropertyValue('--color-font');
         info_element.style.color = color;
     },
@@ -112,7 +112,7 @@ const game = {
             return;
         }
     
-        if (game.state.clicks >= game.settings.max_clicks) {
+        if (game.state.misses >= game.settings.max_misses) {
             return;
         }
     
@@ -124,14 +124,15 @@ const game = {
           
         element.innerHTML = icon;
     
-        game.state.clicks++;
-    
         if (element.innerHTML == game.winning_icon) {
             game.state.points++;
             element.style.border = '1px solid #d6ad60';
         }
+        else {
+            game.state.misses++;
+        }
 
-        if (game.state.clicks >= game.settings.max_clicks && game.state.points < game.settings.points_required_to_win) {
+        if (game.state.misses >= game.settings.max_misses && game.state.points < game.settings.points_required_to_win) {
             var info_element = document.getElementById("info");
             info_element.innerHTML = "You lost";
             info_element.style.color = "#ff0000";

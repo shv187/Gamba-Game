@@ -59,17 +59,14 @@ const game = {
     },
 
     get_random_icon() {
-        var chance = 0.50;
+        var chance = 0.33;
 
-        chance += (this.state.misses * 0.1);
-        chance -= (this.state.points * 0.1);
+        chance += (this.state.misses * 0.07);
+        chance -= (this.state.points * 0.07);
 
         chance = 1.0 - chance;
 
         var random = Math.random();
-        console.log("minimum chance: " + chance);
-        console.log("random: " + random);
-        console.log(" ");
 
         if (random >= chance) {
             return this.winning_icon;

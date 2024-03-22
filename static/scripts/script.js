@@ -102,6 +102,7 @@ const game = {
         info_element.innerHTML = "Points: " + this.state.points + "<br>Misses Left: " + (this.settings.max_misses - this.state.misses);
         var color = getComputedStyle(info_element).getPropertyValue('--color-font');
         info_element.style.color = color;
+        info_element.style.textShadow = "none";
     },
 
     on_reveal(element) {
@@ -133,13 +134,15 @@ const game = {
             var info_element = document.getElementById("info");
             info_element.innerHTML = "You lost";
             info_element.style.color = "#ff0000";
+            info_element.style.textShadow = "1px 1px 1px #0C0C0C64";
             return;
         }
     
         if (game.state.points >= this.settings.points_required_to_win) {
             var info_element = document.getElementById("info");
             info_element.innerHTML = "You Won";
-            info_element.style.color = "#00ff00";
+            info_element.style.color = "#b0ff73";
+            info_element.style.textShadow = "1px 1px 1px #0C0C0C64";
             return;
         }
 

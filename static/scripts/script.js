@@ -41,13 +41,14 @@ function difficulty_to_settings(difficulty) {
 }
 
 const game = {
-    icons: ['💣', '🍄', '☢️', '🎈'],
+    losing_icons: ['💣', '🍄', '☢️', '🎈'],
     winning_icon: '👑',
     base_icon: '❔',
     state: {
         misses: 0,
         points: 0,
-        game_id: 0
+        game_id: 0,
+        board_data: 0
     },
     settings: {
         max_misses: 5,
@@ -58,21 +59,8 @@ const game = {
         }
     },
 
-    get_random_icon() {
-        var chance = 0.33;
-
-        chance += (this.state.misses * 0.07);
-        chance -= (this.state.points * 0.07);
-
-        chance = 1.0 - chance;
-
-        var random = Math.random();
-
-        if (random >= chance) {
-            return this.winning_icon;
-        }
-
-        return this.icons[Math.floor(Math.random() * this.icons.length)];
+    get_random_losing_icon() {
+        return this.losing_icons[Math.floor(Math.random() * this.losing_icons.length)];
     },
 
     start() {
@@ -117,16 +105,17 @@ const game = {
         if (game.state.points >= game.settings.points_required_to_win) {
             return;
         }
+
+        const x_index = element.closest('tr').rowIndex;
+        const y_index = element.cellIndex;
     
-        var icon = game.get_random_icon();
-          
-        element.innerHTML = icon;
-    
-        if (element.innerHTML == game.winning_icon) {
-            game.state.points++;
+        if (this.state.board_data[x_index][y_index] === this.winning_icon) {
+            element.innerHTML = this.winning_icon;
             element.style.border = '1px solid #d6ad60';
+            game.state.points++;
         }
         else {
+            element.innerHTML = game.get_random_losing_icon();
             game.state.misses++;
         }
 
@@ -150,16 +139,29 @@ const game = {
     },
 
     create_board() {
-        const x = this.settings.board_size.x;
-        const y = this.settings.board_size.y;
+        const size_w = this.settings.board_size.x;
+        const size_h = this.settings.board_size.y;
+
+        this.state.board_data = Array.from(Array(size_w), () => new Array(size_h))
 
         var table = document.createElement('table');
         table.id = 'table_id';
-    
-        for (var i = 0; i < y; i++) {
+
+        var crowns_generated = 0;
+        while (crowns_generated < this.settings.points_required_to_win) {
+            var crown_x = Math.floor(Math.random() * this.settings.board_size.x);
+            var crown_y = Math.floor(Math.random() * this.settings.board_size.y);
+
+            if (this.state.board_data[crown_x][crown_y] != this.winning_icon) {
+                this.state.board_data[crown_x][crown_y] = this.winning_icon;
+                crowns_generated++; 
+            }
+        }
+
+        for (var i = 0; i < size_w; i++) {
             var tr = document.createElement('tr');
-            for (var j = 0; j < x; j++) {
-                var td = document.createElement('td');
+            for (var j = 0; j < size_h; j++) {
+                var td = document.createElement('td');                
                 td.textContent = game.base_icon;
                 td.setAttribute( "onClick", "javascript: game.on_reveal(this);" );
                 tr.appendChild(td);
